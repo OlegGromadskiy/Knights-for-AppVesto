@@ -1,0 +1,118 @@
+﻿<Window x:Class="Knights.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Knights"
+        mc:Ignorable="d"
+        Height="450" Width="800" Title="Knights for AppVesto" ResizeMode="NoResize" DataContext="{StaticResource VM}" Name="Self">
+    <Window.Resources>
+        <SolidColorBrush x:Key="VeryBeautifulGreen" Color="#FF20D198"/>
+        <Style TargetType="Label" x:Key="CellStyle">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource VeryBeautifulGreen}"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style TargetType="Label" x:Key="Button">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF2D2D30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#FF252625">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="216*"/>
+            <ColumnDefinition Width="175*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="Desk" Grid.Column="1" Grid.Row="1" Background="White" DataContext="{Binding Path=Coord}"/>
+        <Grid Name="HorseSpace" Grid.Column="1" Grid.Row="1">
+            <local:KnightsControl x:Name="Horse" DataContext="{Binding Path=Coord}"/>
+        </Grid>
+        <Grid Grid.Column="2" Background="#FF252625" Grid.RowSpan="3" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="#FF20D198"/>
+                    <Setter Property="FontSize" Value="22"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="59*"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="69*"/>
+                <RowDefinition Height="73"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="73"/>
+                <RowDefinition Height="73"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="21*"/>
+                    <RowDefinition Height="28*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="21*"/>
+                </Grid.RowDefinitions>
+                <Slider Name="Slider" Value="{Binding Path=Pace, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"  IsSelectionRangeEnabled="True" Grid.Row="3" TickFrequency="1" IsSnapToTickEnabled="True" Minimum="1" Maximum="10"/>
+                <TextBlock Name="Pace" TextWrapping="Wrap" Text="{Binding ElementName=Slider, Path=Value, StringFormat=Pace: x{0}}" Grid.Row="1"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="12*"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Desk size: " HorizontalContentAlignment="Center" FontSize="28" Foreground="{StaticResource VeryBeautifulGreen}" Grid.Row="1" Padding="0"/>
+                <TextBox Name="Sizer" KeyDown="Sizer_KeyDown" LostKeyboardFocus="Sizer_LostKeyboardFocus" TextChanged="Sizer_TextChanged" PreviewTextInput="Sizer_PreviewTextInput" Foreground="{StaticResource VeryBeautifulGreen}" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" Text="{Binding Path=Size, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" FontSize="28" Grid.Column="1" Background="#FF2D2D30" BorderThickness="0" Padding="0" Grid.Row="1">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" Value="Red"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+                <Label Foreground="{StaticResource VeryBeautifulGreen}" BorderBrush="{Binding ElementName=Sizer, Path=BorderBrush, UpdateSourceTrigger=PropertyChanged}" Content="x" FontSize="28" HorizontalContentAlignment="Center" Grid.Column="2" BorderThickness="0" Grid.RowSpan="2" Grid.Row="1" Padding="0"/>
+                <Label Foreground="{StaticResource VeryBeautifulGreen}"  BorderBrush="{Binding ElementName=Sizer, Path=BorderBrush}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding ElementName=Sizer, Path=Text}" FontSize="28" Grid.Column="3" BorderThickness="0" Margin="0" Grid.RowSpan="2" Padding="0" Grid.Row="1"/>
+                <Rectangle Fill="{x:Static SystemColors.ActiveBorderBrush}" Grid.Row="2" Grid.ColumnSpan="4"/>
+            </Grid>
+            <Label Style="{StaticResource Button}" IsEnabled="{Binding Path=IsDrawCellsAvailable}" MouseLeftButtonUp="Start"  Content="Draw Cells" BorderThickness="0" Foreground="#FF20D198" Padding="0" Grid.Row="6" Grid.ColumnSpan="5">
+                <Label.InputBindings>
+                    <MouseBinding Command="{Binding DrawCells}" MouseAction="LeftClick"/>
+                </Label.InputBindings>
+            </Label>
+            <Label Style="{StaticResource Button}" Name="StartButton" IsEnabled="{Binding Path=IsStartAvailable}" Content="Start" BorderThickness="0" Foreground="#FF20D198" Padding="0" Grid.Row="7" Grid.ColumnSpan="5">
+                <Label.InputBindings>
+                    <MouseBinding Command="{Binding Start}" MouseAction="LeftClick"/>
+                </Label.InputBindings>
+            </Label>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,10 @@
+﻿<Application x:Class="Knights.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Knights"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <local:ViewModel x:Key="VM"/>
+        <Path x:Key="Knights" Fill="#FF20D198" Data="M92.36,99.54S109.22,47.26,89,23.65C72,3.86,49.13,7.76,42.17,9.55a7.49,7.49,0,0,0-4.35,2.91C36.74,14,36.36,16,40.07,16.9c6.75,1.69-3.37,15.18-3.37,15.18S19.84,52.32,23.21,60.75a10.14,10.14,0,0,0,5.3,5.64,12.4,12.4,0,0,0,11.42-.77l17-9.93s11.81-8.43,6.75,5.06S55.25,75.93,50.19,81,38.39,91.11,33.33,99.54c-15.46,0-15.46,15.18,0,15.18h59C105.57,114.72,105.57,99.54,92.36,99.54Z"/>         
+    </Application.Resources>
+</Application>
